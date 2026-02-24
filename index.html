@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merrilin — Spoiler-Safe AI Reading Companion</title>
+  <meta name="description" content="AI-powered reading companion with spoiler-safe Q&A for public domain literature. Ask anything about your book without fear of spoilers." />
+  <link rel="canonical" href="https://merrilin.ai" />
+  <link rel="icon" href="favicon.ico" />
+  <meta property="og:title" content="Merrilin — Spoiler-Safe AI Reading Companion" />
+  <meta property="og:description" content="Ask anything about your book without fear of spoilers. AI-powered Q&A grounded in the text, synced across devices." />
+  <meta property="og:url" content="https://merrilin.ai" />
+  <meta property="og:site_name" content="Merrilin" />
+  <meta property="og:image" content="https://merrilin.ai/og-image.png" />
+  <meta property="og:image:alt" content="Merrilin app screenshots showing spoiler-safe AI chat and reading interface" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Merrilin — Spoiler-Safe AI Reading Companion" />
+  <meta name="twitter:description" content="Ask anything about your book without fear of spoilers. AI-powered Q&A grounded in the text, synced across devices." />
+  <meta name="twitter:image" content="https://merrilin.ai/og-image.png" />
+  <meta name="twitter:image:alt" content="Merrilin app screenshots showing spoiler-safe AI chat and reading interface" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Merrilin",
+      "url": "https://merrilin.ai",
+      "sameAs": [
+        "https://github.com/merrilin-ai"
+      ],
+      "description": "A spoiler-safe AI reading companion for EPUB and PDF reading, grounded Q&A, reading analytics, and cross-device sync.",
+      "applicationCategory": "BooksApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "featureList": [
+        "Spoiler-safe AI Q&A grounded in the text",
+        "EPUB and PDF reading in browser",
+        "Reading analytics based on actual reading velocity",
+        "Cross-device sync across web and mobile",
+        "Series and cross-book question answering"
+      ]
+    }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ================================================================
+       Font Faces — Tangerine (brand logo only)
+       ================================================================ */
+    @font-face {
+      font-family: 'Tangerine';
+      src: url('fonts/Tangerine-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Tangerine';
+      src: url('fonts/Tangerine-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ================================================================
+       Theme Tokens
+       ================================================================ */
+
+    /* Light Plus (default) */
+    :root[data-theme="light-plus"] {
+      --color-primary: #0000ff;
+      --color-golden: #008000;
+      --color-orange: #795e26;
+      --color-coral: #ee0000;
+      --color-bg: #ffffff;
+      --color-text: #000000;
+      --color-surface: #f0f0f0;
+      --color-surface-alt: #e5ebf1;
+      --color-border: #d4d4d4;
+      --color-muted: #767676;
+      --logo-patch-size: 48px;
+      --logo-drop-shadow: 2px 2px 0px rgba(0, 0, 0, 0.12);
+      --nav-glass-bg: rgba(255, 255, 255, 0.82);
+      --nav-glass-border: rgba(212, 212, 212, 0.5);
+      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+      --hero-gradient: linear-gradient(135deg, #f0f0f0 0%, #e5ebf1 100%);
+      --cta-bg: #1a1a2e;
+      --cta-text: #ffffff;
+      --cta-muted: #a0a0b8;
+      color-scheme: light;
+    }
+
+    /* Solarized Light (sepia) */
+    :root[data-theme="solarized-light"] {
+      --color-primary: #002b36;
+      --color-golden: #0f766e;
+      --color-orange: #b58900;
+      --color-coral: #cb4b16;
+      --color-bg: #fdf6e3;
+      --color-text: #657b83;
+      --color-surface: #eee8d5;
+      --color-surface-alt: #d1cbb8;
+      --color-border: #ddd6c1;
+      --color-muted: #586e75;
+      --logo-patch-size: 48px;
+      --logo-drop-shadow: 2px 2px 0px rgba(0, 0, 0, 0.12);
+      --nav-glass-bg: rgba(253, 246, 227, 0.82);
+      --nav-glass-border: rgba(221, 214, 193, 0.5);
+      --card-shadow: 0 1px 3px rgba(101, 123, 131, 0.1);
+      --card-shadow-hover: 0 4px 12px rgba(101, 123, 131, 0.16);
+      --hero-gradient: linear-gradient(135deg, #eee8d5 0%, #d1cbb8 100%);
+      --cta-bg: #002b36;
+      --cta-text: #fdf6e3;
+      --cta-muted: #839496;
+      color-scheme: light;
+    }
+
+    /* Dracula (dark) */
+    :root[data-theme="dracula"] {
+      --color-primary: #8be9fe;
+      --color-golden: #69ff94;
+      --color-orange: #ffb86c;
+      --color-coral: #ff5555;
+      --color-bg: #282a36;
+      --color-text: #f8f8f2;
+      --color-surface: #21222c;
+      --color-surface-alt: #343746;
+      --color-border: #191a21;
+      --color-muted: #6272a4;
+      --logo-patch-size: 48px;
+      --logo-drop-shadow: 2px 2px 0px rgba(0, 0, 0, 0.62);
+      --nav-glass-bg: rgba(40, 42, 54, 0.88);
+      --nav-glass-border: rgba(25, 26, 33, 0.5);
+      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.45);
+      --hero-gradient: linear-gradient(135deg, #21222c 0%, #343746 100%);
+      --cta-bg: #191a21;
+      --cta-text: #f8f8f2;
+      --cta-muted: #6272a4;
+      color-scheme: dark;
+    }
+
+    /* ================================================================
+       Reset & Base
+       ================================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: 'Noto Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0.75rem;
+      z-index: 1000;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      background: var(--color-text);
+      color: var(--color-bg);
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 0.75rem;
+    }
+
+    /* ================================================================
+       Patchwork Logo
+       ================================================================ */
+    .patchwork-logo {
+      font-family: 'Tangerine', cursive;
+      font-weight: 700;
+      line-height: 1.1;
+      padding: 0.05em 0.1em;
+      background-image: conic-gradient(
+        from 0deg,
+        var(--color-primary) 0deg 90deg,
+        var(--color-golden) 90deg 180deg,
+        var(--color-orange) 180deg 270deg,
+        var(--color-coral) 270deg 360deg
+      );
+      background-size: var(--logo-patch-size) var(--logo-patch-size);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      filter: drop-shadow(var(--logo-drop-shadow));
+    }
+
+    /* ================================================================
+       Navigation
+       ================================================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 1.5rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--nav-glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--nav-glass-border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-logo {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-muted);
+      transition: color 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-text);
+    }
+
+    /* Theme switcher */
+    .theme-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 9999px;
+      padding: 0.2rem;
+    }
+
+    .theme-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-muted);
+      transition: background 0.2s ease, color 0.2s ease;
+      font-size: 0.875rem;
+      line-height: 1;
+    }
+
+    .theme-btn:hover {
+      color: var(--color-text);
+    }
+
+    .theme-btn.active {
+      background: var(--color-bg);
+      color: var(--color-text);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ================================================================
+       Hero
+       ================================================================ */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 1.5rem 4rem;
+    }
+
+    .hero-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-family: 'Noto Serif', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Dictionary definition block */
+    .dict-entry {
+      max-width: 32rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .dict-phonetic {
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .dict-pos {
+      font-family: 'Noto Serif', Georgia, serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .dict-def {
+      font-family: 'Noto Serif', Georgia, serif;
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      color: var(--color-text);
+      opacity: 0.8;
+      line-height: 1.75;
+      padding-left: 1rem;
+      border-left: 2px solid var(--color-border);
+      transition: border-color 0.3s ease;
+    }
+
+    .hero-text > p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--color-muted);
+      max-width: 32rem;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .hero-cta-primary {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    .hero-cta-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-cta-secondary {
+      background: transparent;
+      color: var(--color-text);
+      border-color: var(--color-border);
+    }
+
+    .hero-cta-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--card-shadow);
+      background: var(--color-surface);
+    }
+
+    .hero-cta:focus-visible,
+    .cta-subscribe-btn:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .hero-visual {
+      background: transparent;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      transition: background 0.3s ease;
+    }
+
+    .hero-visual img {
+      max-width: 100%;
+      max-height: clamp(20rem, 48vh, 31rem);
+      height: auto;
+      object-fit: contain;
+      border-radius: 0.85rem;
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .hero-placeholder {
+      color: var(--color-muted);
+      font-size: 0.875rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-placeholder svg {
+      width: 3rem;
+      height: 3rem;
+      margin: 0 auto 0.75rem;
+      opacity: 0.4;
+    }
+
+    /* ================================================================
+       Section base
+       ================================================================ */
+    .section {
+      padding: 6rem 1.5rem;
+    }
+
+    .section-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif', Georgia, serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      color: var(--color-muted);
+      max-width: 36rem;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    .gallery-group .section-subtitle {
+      max-width: none;
+      margin-bottom: 1rem;
+    }
+
+    /* ================================================================
+       Features
+       ================================================================ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      transition: box-shadow 0.25s ease, transform 0.25s ease,
+                  background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--color-primary);
+    }
+
+    .feature-card h3 {
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      line-height: 1.65;
+    }
+
+    /* ================================================================
+       Gallery — Hero carousel with thumbnail filmstrip
+       ================================================================ */
+    .gallery {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .gallery-group {
+      margin-bottom: 3.5rem;
+    }
+
+    .gallery-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .gallery-group-label {
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* Main preview area */
+    .carousel-hero {
+      border-radius: 0.75rem;
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      background: var(--color-bg);
+      transition: background 0.3s ease, border-color 0.3s ease;
+      margin-bottom: 0.75rem;
+    }
+
+    .carousel-slide {
+      display: none;
+    }
+
+    .carousel-slide.active {
+      display: block;
+    }
+
+    .carousel-slide img,
+    .carousel-slide video {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .carousel-slide iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+    }
+
+    .carousel-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--hero-gradient);
+      color: var(--color-muted);
+      font-size: 1rem;
+      gap: 0.5rem;
+      transition: background 0.3s ease;
+    }
+
+    .carousel-placeholder svg {
+      width: 3rem;
+      height: 3rem;
+      opacity: 0.3;
+    }
+
+    /* Description panel below hero */
+    .carousel-info {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 1rem;
+      padding: 0 0.25rem;
+      margin-bottom: 0.75rem;
+      min-height: 1.5rem;
+    }
+
+    .carousel-caption {
+      font-family: 'Noto Serif', Georgia, serif;
+      font-size: 0.9rem;
+      color: var(--color-text);
+      line-height: 1.5;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .carousel-counter {
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      white-space: nowrap;
+      margin-left: auto;
+    }
+
+    /* Dot indicators */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .carousel-dot {
+      width: 1.5rem;
+      height: 3px;
+      border-radius: 2px;
+      border: none;
+      padding: 0;
+      background: var(--color-border);
+      cursor: pointer;
+      transition: background 0.2s ease, width 0.2s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--color-text);
+      width: 2rem;
+    }
+
+    /* Thumbnail filmstrip */
+    .carousel-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .carousel-thumbs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-thumb {
+      flex: 0 0 auto;
+      width: 5.5rem;
+      border-radius: 0.4rem;
+      border: 2px solid transparent;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s ease, border-color 0.2s ease;
+      background: var(--color-bg);
+    }
+
+    .carousel-thumb.active {
+      opacity: 1;
+      border-color: var(--color-text);
+    }
+
+    .carousel-thumb:hover {
+      opacity: 0.85;
+    }
+
+    .carousel-thumb img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--hero-gradient);
+      color: var(--color-muted);
+      font-size: 0.55rem;
+      text-align: center;
+      padding: 0.15rem;
+      line-height: 1.3;
+      transition: background 0.3s ease;
+    }
+
+    /* Mobile: thumbs scroll horizontally, hero takes full width */
+    @media (max-width: 480px) {
+      .carousel-thumb {
+        width: 4.5rem;
+      }
+    }
+
+    /* ================================================================
+       Newsletter CTA
+       ================================================================ */
+    .cta-section {
+      background: var(--cta-bg);
+      color: var(--cta-text);
+      text-align: center;
+      padding: 6rem 1.5rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .cta-section .section-title {
+      color: var(--cta-text);
+    }
+
+    .cta-section .section-subtitle {
+      color: var(--cta-muted);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-subscribe-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      border: 2px solid var(--cta-text);
+      border-radius: 0.5rem;
+      background: transparent;
+      color: var(--cta-text);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .cta-subscribe-btn:hover {
+      background: var(--cta-text);
+      color: var(--cta-bg);
+    }
+
+    /* ================================================================
+       Signup Modal (Picoletter)
+       ================================================================ */
+    .signup-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 1.5rem;
+    }
+
+    .signup-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .signup-modal-card {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 24rem;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .signup-modal-close {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      color: var(--color-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      transition: color 0.2s ease;
+    }
+
+    .signup-modal-close:hover {
+      color: var(--color-text);
+    }
+
+    .signup-modal-title {
+      font-family: 'Noto Serif', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .signup-modal-subtitle {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Picoletter form styles (overriding embed defaults) */
+    .signup-modal .picoletter-form-embed {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Noto Sans', system-ui, sans-serif;
+    }
+
+    .signup-modal .picoletter-form-embed label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--color-text);
+    }
+
+    .signup-modal .picoletter-form-embed input[type="text"],
+    .signup-modal .picoletter-form-embed input[type="email"] {
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.4rem;
+      margin-bottom: 0.85rem;
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.3s ease;
+    }
+
+    .signup-modal .picoletter-form-embed input[type="text"]:focus,
+    .signup-modal .picoletter-form-embed input[type="email"]:focus {
+      border-color: var(--color-primary);
+    }
+
+    .signup-modal .picoletter-form-embed input[type="submit"] {
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Noto Sans', system-ui, sans-serif;
+      border: none;
+      border-radius: 0.4rem;
+      background: var(--color-text);
+      color: var(--color-bg);
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .signup-modal .picoletter-form-embed input[type="submit"]:hover {
+      opacity: 0.85;
+    }
+
+    .signup-modal .picoletter-form-embed p {
+      margin: 0;
+      font-size: 0.7rem;
+      color: var(--color-muted);
+    }
+
+    /* ================================================================
+       Lightbox Modal
+       ================================================================ */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.85);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 1.5rem;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      transition: background 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .lightbox-caption {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.85rem;
+      text-align: center;
+      max-width: 80%;
+    }
+
+    /* ================================================================
+       Footer
+       ================================================================ */
+    .footer {
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+      transition: border-color 0.3s ease;
+    }
+
+    .footer-logo {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-text);
+    }
+
+    /* ================================================================
+       Scroll Animations
+       ================================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(1.5rem);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* ================================================================
+       Responsive
+       ================================================================ */
+
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .hero-inner {
+        gap: 2.5rem;
+      }
+
+      .features-grid {
+        gap: 1rem;
+      }
+    }
+
+    /* Small tablet */
+    @media (max-width: 768px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text > p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-cta-group {
+        justify-content: center;
+      }
+
+      .dict-entry {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-visual {
+        max-width: 32rem;
+        margin: 0 auto;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links .nav-link-text {
+        display: none;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav {
+        padding: 0 1rem;
+      }
+
+      .hero {
+        padding: 5rem 1rem 3rem;
+      }
+
+      .section {
+        padding: 4rem 1rem;
+      }
+
+      .cta-section {
+        padding: 4rem 1rem;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- ============================================================
+       Navigation
+       ============================================================ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="#hero" class="nav-logo patchwork-logo" aria-label="Merrilin home">Merrilin</a>
+    <ul class="nav-links">
+      <li><a href="#features" class="nav-link-text">Features</a></li>
+      <li><a href="#gallery" class="nav-link-text">Gallery</a></li>
+      <li><a href="#signup" class="nav-link-text">Updates</a></li>
+      <li>
+        <div class="theme-switcher" role="radiogroup" aria-label="Theme">
+          <button class="theme-btn" data-theme="light-plus" aria-label="Light theme" title="Light Plus">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3.5"/><path d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.4 3.4l.7.7M11.9 11.9l.7.7M3.4 12.6l.7-.7M11.9 4.1l.7-.7"/></svg>
+          </button>
+          <button class="theme-btn" data-theme="solarized-light" aria-label="Sepia theme" title="Solarized Light">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 13h8M5 13V9.5a3 3 0 1 1 6 0V13"/><path d="M8 1.5v1"/></svg>
+          </button>
+          <button class="theme-btn active" data-theme="dracula" aria-label="Dark theme" title="Dracula">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13.5 9.5a5.5 5.5 0 1 1-7-7 4.5 4.5 0 0 0 7 7z"/></svg>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       Hero
+       ============================================================ -->
+  <main id="main-content">
+  <header class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="hero-text fade-in">
+        <div class="dict-entry">
+          <div class="dict-phonetic">/&#x2C8;m&#x25B;r.&#x26A;.l&#x26A;n/</div>
+          <div class="dict-pos">noun</div>
+          <p class="dict-def">A journeyman who has travelled this path, won't steer you one way or the other, but if you choose to stop and ask about an aspen, he will tell you about it, granted you don't ask about the treasure lurking in its branches, for that is only for your eyes to behold.</p>
+        </div>
+        <h1 id="hero-title">Read naturally, ask freely</h1>
+        <p>A reading app with an AI companion that adapts to what you're reading, protecting fiction from spoilers while answering non-fiction with full context.</p>
+        <div class="hero-cta-group">
+          <button class="hero-cta hero-cta-primary open-signup-btn">Get updates</button>
+          <a class="hero-cta hero-cta-secondary" href="#gallery">See it in action</a>
+        </div>
+      </div>
+      <div class="hero-visual fade-in">
+        <img src="screenshots/war-and-peace-spoiler-safety.webp" alt="AI chat — spoiler-safe answer about Kutuzov from War and Peace chapter 2" />
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       Features
+       ============================================================ -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="section-inner">
+      <h2 class="section-title fade-in" id="features-title">Reading is the point. Everything else follows.</h2>
+      <p class="section-subtitle fade-in">Merrilin is a reading app first. The AI companion, the analytics, the sync — they all exist to help you read more and read better.</p>
+      <div class="features-grid">
+
+        <div class="feature-card fade-in">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          <h3>Built-in reader</h3>
+          <p>Read EPUB and PDF files directly in your browser with over 60 themes to choose from. Highlights, bookmarks, and AI chat live right beside the text.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="M7 16l4-8 4 5 4-3"/>
+          </svg>
+          <h3>Reading analytics</h3>
+          <p>Not "110 hours to finish" — instead, "30 days at 30 minutes a day", tailored to your actual reading velocity. See when you read most, how your sessions trend, and build a sustainable habit.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/>
+            <path d="M15 11l-6 6M9 11h6v6"/>
+          </svg>
+          <h3>Bring your own books</h3>
+          <p>Upload your EPUBs and PDFs. Merrilin is a platform, not a store — your library, your files, your reading experience.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+            <path d="M12 16v-4M12 8h.01"/>
+          </svg>
+          <h3>AI that respects how you read</h3>
+          <p>Toggle between fiction and non-fiction modes. Fiction keeps spoilers gated to your reading position. Non-fiction goes all in. Either way, every answer cites specific passages.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/>
+            <path d="M14 14h6v6h-6z"/>
+            <path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01"/>
+          </svg>
+          <h3>Series &amp; cross-book Q&amp;A</h3>
+          <p>Think playlists, but for books. Group any combination — a trilogy, a reading list, books that share nothing but your curiosity. Then ask questions across all of them at once.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 0 1 9-9"/>
+          </svg>
+          <h3>Every platform, one library</h3>
+          <p>Available on Android, iOS, and the web — and optimized for e-paper devices running Android. Start on your Boox, continue on your phone. Everything syncs.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Gallery
+       ============================================================ -->
+  <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+    <div class="section-inner">
+      <h2 class="section-title fade-in" id="gallery-title">See it in action</h2>
+      <p class="section-subtitle fade-in">Screenshots and walkthroughs from the latest build.</p>
+
+      <!-- Library views -->
+      <div class="gallery-group fade-in" data-carousel>
+        <h3 class="gallery-group-label">Library</h3>
+        <p class="section-subtitle">View your collection in the form of books rendered on a shelf, thumbnails or a simple list.</p>
+        <div class="carousel-hero">
+          <div class="carousel-slide active" data-caption="Spines on wood-grain shelves" data-label="Shelf mode">
+            <img src="screenshots/desktop-shelf-view-library-theme-2.webp" alt="Library — Shelf mode" />
+          </div>
+          <div class="carousel-slide" data-caption="Cover art grid for browsing at a glance" data-label="Thumbnail mode">
+            <img src="screenshots/desktop-thumbnail-view.webp" alt="Library — Thumbnail mode" />
+          </div>
+          <div class="carousel-slide" data-caption="Compact list with metadata and progress" data-label="List view">
+            <img src="screenshots/desktop-list-view.webp" alt="Library — List view" />
+          </div>
+        </div>
+        <div class="carousel-info">
+          <span class="carousel-caption"></span>
+          <span class="carousel-counter"></span>
+        </div>
+        <div class="carousel-dots"></div>
+        <div class="carousel-thumbs"></div>
+      </div>
+
+      <!-- Reading views -->
+      <div class="gallery-group fade-in" data-carousel>
+        <h3 class="gallery-group-label">Reader</h3>
+        <p class="section-subtitle">Enjoy native experience across a series of platforms, android, ios, web and even epaper displays.</p>
+        <div class="carousel-hero">
+          <div class="carousel-slide active" data-caption="Full-screen reading on mobile" data-label="Mobile">
+            <img src="screenshots/light-theme-mobile.webp" alt="Reader — mobile, light theme" />
+          </div>
+          <div class="carousel-slide" data-caption="Optimized for e-paper devices like the Boox Palma" data-label="Boox Palma">
+            <img src="screenshots/boox-palma-merrilin.webp" alt="Reader — Boox Palma e-paper device" />
+          </div>
+          <div class="carousel-slide" data-caption="Single-column reading in light theme" data-label="Light theme">
+            <img src="screenshots/reader-desktop-narrow-light-theme.webp" alt="Reader — single column, light theme" />
+          </div>
+          <div class="carousel-slide" data-caption="Warm sepia tone for comfortable extended reading" data-label="Sepia theme">
+            <img src="screenshots/reader-desktop-narrow-sepia.webp" alt="Reader — single column, sepia theme" />
+          </div>
+          <div class="carousel-slide" data-caption="Dark theme for nighttime reading sessions" data-label="Dark theme">
+            <img src="screenshots/reader-desktop-narrow.webp" alt="Reader — single column, dark theme" />
+          </div>
+          <div class="carousel-slide" data-caption="Multi-column layout with full desktop width" data-label="Wide desktop">
+            <img src="screenshots/reader-desktop-wide.webp" alt="Reader — wide desktop, multi-column" />
+          </div>
+          <div class="carousel-slide" data-caption="Choose from multiple reading themes to suit your preference" data-label="Theme picker">
+            <img src="screenshots/theme-picker.webp" alt="Reader — theme picker" />
+          </div>
+        </div>
+        <div class="carousel-info">
+          <span class="carousel-caption"></span>
+          <span class="carousel-counter"></span>
+        </div>
+        <div class="carousel-dots"></div>
+        <div class="carousel-thumbs"></div>
+      </div>
+
+      <!-- AI Chat — Single book -->
+      <div class="gallery-group fade-in" data-carousel>
+        <h3 class="gallery-group-label">AI Chat — Single Book</h3>
+        <p class="section-subtitle" style="margin-bottom: 1rem;">Upload any book and make it AI-ready in minutes. Ask questions grounded in the text, with answers bounded by your reading progress, or limitless if you want the non-fiction mode.</p>
+        <div class="carousel-hero">
+          <div class="carousel-slide active" data-caption="&ldquo;Who is Kutuzov?&rdquo; — answered safely using only what you've read so far in War and Peace" data-label="Spoiler safety">
+            <img src="screenshots/war-and-peace-spoiler-safety.webp" alt="AI chat — spoiler-safe answer about Kutuzov from War and Peace chapter 2" />
+          </div>
+          <div class="carousel-slide" data-caption="&ldquo;Why are the aristocrats speaking French?&rdquo; — historical context from War and Peace" data-label="Historical context">
+            <div class="carousel-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Historical context</span></div>
+          </div>
+          <div class="carousel-slide" data-caption="&ldquo;What are Sun Tzu's recommendations for an uphill battle?&rdquo;" data-label="Non-fiction">
+            <div class="carousel-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Non-fiction</span></div>
+          </div>
+        </div>
+        <div class="carousel-info">
+          <span class="carousel-caption"></span>
+          <span class="carousel-counter"></span>
+        </div>
+        <div class="carousel-dots"></div>
+        <div class="carousel-thumbs"></div>
+      </div>
+
+      <!-- Series -->
+      <div class="gallery-group fade-in" data-carousel>
+        <h3 class="gallery-group-label">Series</h3>
+        <p class="section-subtitle">Group books into series, a book can be part of any number of series, and ask questions across series while you're reading, to gain insights into character development across a multi-part series, or to empower your non-fiction reading.</p>
+        <div class="carousel-hero">
+          <div class="carousel-slide active" data-caption="Group books into series and collections — read them in order, ask questions across all of them" data-label="Series page">
+            <img src="screenshots/series-page.webp" alt="Series page — books grouped into a collection" />
+          </div>
+        </div>
+        <div class="carousel-info">
+          <span class="carousel-caption"></span>
+          <span class="carousel-counter"></span>
+        </div>
+        <div class="carousel-dots"></div>
+        <div class="carousel-thumbs"></div>
+      </div>
+
+      <!-- Analytics -->
+      <div class="gallery-group fade-in" data-carousel>
+        <h3 class="gallery-group-label">Reading Analytics</h3>
+        <p class="section-subtitle">Your statistics stay out of your way, but here's a peek under the hood. Merrilin uses time-tested statistical process control methods to tell you, with confidence grounded in your past reading, that you can finish War and Peace in 30 days at 30 minutes a day.</p>
+        <div class="carousel-hero">
+          <div class="carousel-slide active" data-caption="Reading velocity and session trends at a glance" data-label="Overview">
+            <img src="screenshots/analytics-1.webp" alt="Reading analytics — overview dashboard" />
+          </div>
+          <div class="carousel-slide" data-caption="See when you're most likely to read based on your actual habits" data-label="Reading time">
+            <img src="screenshots/analytics-most-likely-reading-time.webp" alt="Reading analytics — most likely reading time" />
+          </div>
+          <div class="carousel-slide" data-caption="Your personalized reader profile built from real data" data-label="Reader profile">
+            <img src="screenshots/analytics-reader-profile.webp" alt="Reading analytics — reader profile" />
+          </div>
+        </div>
+        <div class="carousel-info">
+          <span class="carousel-caption"></span>
+          <span class="carousel-counter"></span>
+        </div>
+        <div class="carousel-dots"></div>
+        <div class="carousel-thumbs"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Newsletter CTA
+       ============================================================ -->
+  <section class="cta-section" id="signup" aria-labelledby="signup-title">
+    <div class="section-inner">
+      <h2 class="section-title fade-in" id="signup-title">Get early access updates</h2>
+      <p class="section-subtitle fade-in">Follow development progress, new features, supported books, and early access invites.</p>
+      <div class="fade-in">
+        <button class="cta-subscribe-btn" id="open-signup" aria-haspopup="dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Join the updates list
+        </button>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ============================================================
+       Signup Modal (Picoletter)
+       ============================================================ -->
+  <div class="signup-modal" id="signup-modal" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+    <div class="signup-modal-card">
+      <button class="signup-modal-close" aria-label="Close">&times;</button>
+      <h3 class="signup-modal-title">Get updates</h3>
+      <p class="signup-modal-subtitle">New features, supported books, and early access invites. No spam.</p>
+      <form
+        action="https://picoletter.com/merrilin-updates/embed/subscribe"
+        method="post"
+        target="popupwindow"
+        onsubmit="window.open('https://picoletter.com/merrilin-updates', 'popupwindow')"
+        class="picoletter-form-embed"
+      >
+        <label for="pico-name">Name</label>
+        <input type="text" name="name" id="pico-name" placeholder="Your name" />
+
+        <label for="pico-email">Email</label>
+        <input type="email" name="email" id="pico-email" placeholder="you@example.com" required />
+
+        <input type="hidden" name="labels" value="newsletter-signup" />
+        <input type="submit" value="Subscribe" />
+        <p><a href="https://picoletter.com?from=merrilin-updates" target="_blank" rel="noopener">Built using Picoletter.</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Lightbox
+       ============================================================ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button class="lightbox-close" aria-label="Close preview">&times;</button>
+    <img src="" alt="" />
+    <div class="lightbox-caption"></div>
+  </div>
+
+  <!-- ============================================================
+       Footer
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer-logo patchwork-logo">Merrilin</div>
+    <p class="footer-text">&copy; 2026 Merrilin. You want stories? I have stories and I will give them to you.</p>
+    <ul class="footer-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#signup">Updates</a></li>
+      <li><a href="https://github.com/merrilin-ai" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+    </ul>
+  </footer>
+
+  <!-- ============================================================
+       Scripts
+       ============================================================ -->
+  <script>
+    // Theme switching
+    (function () {
+      const STORAGE_KEY = 'merrilin-landing-theme';
+
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem(STORAGE_KEY, theme);
+        document.querySelectorAll('.theme-btn').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
+        });
+      }
+
+      // Restore saved theme or use default
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) setTheme(saved);
+
+      document.querySelectorAll('.theme-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setTheme(btn.getAttribute('data-theme'));
+        });
+      });
+    })();
+
+    // IntersectionObserver fade-in animations
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      document.querySelectorAll('.fade-in').forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Signup modal
+    (function () {
+      var modal = document.getElementById('signup-modal');
+      var openBtn = document.getElementById('open-signup');
+      var closeBtn = modal.querySelector('.signup-modal-close');
+
+      function open() {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        modal.querySelector('input[type="text"]').focus();
+      }
+
+      function close() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      openBtn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) close();
+      });
+
+      // Any element with .open-signup-btn also opens the modal
+      document.querySelectorAll('.open-signup-btn').forEach(function (btn) {
+        btn.addEventListener('click', open);
+      });
+    })();
+
+    // Hero carousels with thumbnail filmstrip
+    (function () {
+      document.querySelectorAll('[data-carousel]').forEach(function (group) {
+        var slides = group.querySelectorAll('.carousel-slide');
+        var captionEl = group.querySelector('.carousel-caption');
+        var counterEl = group.querySelector('.carousel-counter');
+        var dotsContainer = group.querySelector('.carousel-dots');
+        var thumbsContainer = group.querySelector('.carousel-thumbs');
+        var total = slides.length;
+        var initialized = false;
+
+        function goTo(index) {
+          slides.forEach(function (s, i) {
+            s.classList.toggle('active', i === index);
+          });
+          // Update caption & counter
+          var active = slides[index];
+          captionEl.textContent = active.getAttribute('data-caption') || '';
+          counterEl.textContent = (index + 1) + ' / ' + total;
+          // Update dots
+          dotsContainer.querySelectorAll('.carousel-dot').forEach(function (d, i) {
+            d.classList.toggle('active', i === index);
+          });
+          // Update thumbs
+          thumbsContainer.querySelectorAll('.carousel-thumb').forEach(function (t, i) {
+            t.classList.toggle('active', i === index);
+          });
+          // Scroll active thumb into view (skip on first init to avoid page jump)
+          if (initialized) {
+            var activeThumb = thumbsContainer.querySelector('.carousel-thumb.active');
+            if (activeThumb) {
+              activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+          }
+        }
+
+        // Build dots
+        slides.forEach(function (_, i) {
+          var dot = document.createElement('button');
+          dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+          dot.addEventListener('click', function () { goTo(i); });
+          dotsContainer.appendChild(dot);
+        });
+
+        // Build thumbnails
+        slides.forEach(function (slide, i) {
+          var thumb = document.createElement('div');
+          thumb.className = 'carousel-thumb' + (i === 0 ? ' active' : '');
+          var img = slide.querySelector('img');
+          if (img) {
+            var thumbImg = document.createElement('img');
+            thumbImg.src = img.src;
+            thumbImg.alt = img.alt;
+            thumb.appendChild(thumbImg);
+          } else {
+            var ph = document.createElement('div');
+            ph.className = 'carousel-thumb-placeholder';
+            ph.textContent = slide.getAttribute('data-label') || '';
+            thumb.appendChild(ph);
+          }
+          thumb.addEventListener('click', function () { goTo(i); });
+          thumbsContainer.appendChild(thumb);
+        });
+
+        // Initialize first slide caption
+        goTo(0);
+        initialized = true;
+      });
+    })();
+
+    // Lightbox — click hero preview image to expand
+    (function () {
+      var lightbox = document.getElementById('lightbox');
+      var lbImg = lightbox.querySelector('img');
+      var lbCaption = lightbox.querySelector('.lightbox-caption');
+      var lbClose = lightbox.querySelector('.lightbox-close');
+
+      function open(src, alt, caption) {
+        lbImg.src = src;
+        lbImg.alt = alt || '';
+        lbCaption.textContent = caption || '';
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        lbClose.focus();
+      }
+
+      function close() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+      }
+
+      // Click the hero preview area to open lightbox (only if slide has a real image)
+      document.querySelectorAll('.carousel-hero').forEach(function (hero) {
+        hero.style.cursor = 'pointer';
+        hero.addEventListener('click', function () {
+          var active = hero.querySelector('.carousel-slide.active');
+          if (!active) return;
+          var img = active.querySelector('img');
+          if (!img) return; // skip placeholders
+          var caption = active.getAttribute('data-caption') || '';
+          open(img.src, img.alt, caption);
+        });
+      });
+
+      lbClose.addEventListener('click', close);
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.classList.contains('open')) close();
+      });
+    })();
+  </script>
+
+</body>
+</html>
