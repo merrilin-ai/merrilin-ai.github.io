@@ -430,7 +430,7 @@
 
     .hero-visual img {
       max-width: 100%;
-      max-height: clamp(20rem, 48vh, 31rem);
+      max-height: clamp(24rem, 56vh, 38rem);
       height: auto;
       object-fit: contain;
       border-radius: 0.85rem;
@@ -892,6 +892,25 @@
       color: var(--color-muted);
     }
 
+    .about-logo {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .about-built-by {
+      font-size: 0.95rem;
+      color: var(--color-text);
+    }
+
+    .about-built-by a {
+      color: var(--color-primary);
+      transition: opacity 0.2s ease;
+    }
+
+    .about-built-by a:hover {
+      opacity: 0.8;
+    }
+
     /* ================================================================
        Lightbox Modal
        ================================================================ */
@@ -973,6 +992,15 @@
     .footer-text {
       font-size: 0.8rem;
       color: var(--color-muted);
+    }
+
+    .footer-text a {
+      color: var(--color-muted);
+      transition: color 0.2s ease;
+    }
+
+    .footer-text a:hover {
+      color: var(--color-text);
     }
 
     .footer-links {
@@ -1109,6 +1137,7 @@
       <li><a href="#features" class="nav-link-text">Features</a></li>
       <li><a href="#gallery" class="nav-link-text">Gallery</a></li>
       <li><a href="#signup" class="nav-link-text">Updates</a></li>
+      <li><a href="#" class="nav-link-text" id="open-about" aria-haspopup="dialog">About</a></li>
       <li>
         <div class="theme-switcher" role="radiogroup" aria-label="Theme">
           <button class="theme-btn" data-theme="light-plus" aria-label="Light theme" title="Light Plus">
@@ -1132,11 +1161,6 @@
   <header class="hero" id="hero" aria-labelledby="hero-title">
     <div class="hero-inner">
       <div class="hero-text fade-in">
-        <div class="dict-entry">
-          <div class="dict-phonetic">/&#x2C8;m&#x25B;r.&#x26A;.l&#x26A;n/</div>
-          <div class="dict-pos">noun</div>
-          <p class="dict-def">A journeyman who has travelled this path, won't steer you one way or the other, but if you choose to stop and ask about an aspen, he will tell you about it, granted you don't ask about the treasure lurking in its branches, for that is only for your eyes to behold.</p>
-        </div>
         <h1 id="hero-title">Read naturally, ask freely</h1>
         <p>A reading app with an AI companion that adapts to what you're reading, protecting fiction from spoilers while answering non-fiction with full context.</p>
         <div class="hero-cta-group">
@@ -1239,6 +1263,9 @@
           <div class="carousel-slide" data-caption="Compact list with metadata and progress" data-label="List view">
             <img src="screenshots/desktop-list-view.webp" alt="Library — List view" />
           </div>
+          <div class="carousel-slide" data-caption="Group books into series — a book can belong to multiple series, and you can ask questions across all of them" data-label="Series">
+            <img src="screenshots/series-page.webp" alt="Library — Series page with books grouped into a collection" />
+          </div>
         </div>
         <div class="carousel-info">
           <span class="carousel-caption"></span>
@@ -1255,6 +1282,9 @@
         <div class="carousel-hero">
           <div class="carousel-slide active" data-caption="Full-screen reading on mobile" data-label="Mobile">
             <img src="screenshots/light-theme-mobile.webp" alt="Reader — mobile, light theme" />
+          </div>
+          <div class="carousel-slide" data-caption="Upload any book and make it AI-ready in minutes — ask questions grounded in the text, with answers bounded by your reading progress" data-label="AI Chat">
+            <img src="screenshots/war-and-peace-spoiler-safety.webp" alt="Reader — AI chat with spoiler-safe answer about Kutuzov from War and Peace" />
           </div>
           <div class="carousel-slide" data-caption="Optimized for e-paper devices like the Boox Palma" data-label="Boox Palma">
             <img src="screenshots/boox-palma-merrilin.webp" alt="Reader — Boox Palma e-paper device" />
@@ -1273,46 +1303,6 @@
           </div>
           <div class="carousel-slide" data-caption="Choose from multiple reading themes to suit your preference" data-label="Theme picker">
             <img src="screenshots/theme-picker.webp" alt="Reader — theme picker" />
-          </div>
-        </div>
-        <div class="carousel-info">
-          <span class="carousel-caption"></span>
-          <span class="carousel-counter"></span>
-        </div>
-        <div class="carousel-dots"></div>
-        <div class="carousel-thumbs"></div>
-      </div>
-
-      <!-- AI Chat — Single book -->
-      <div class="gallery-group fade-in" data-carousel>
-        <h3 class="gallery-group-label">AI Chat — Single Book</h3>
-        <p class="section-subtitle" style="margin-bottom: 1rem;">Upload any book and make it AI-ready in minutes. Ask questions grounded in the text, with answers bounded by your reading progress, or limitless if you want the non-fiction mode.</p>
-        <div class="carousel-hero">
-          <div class="carousel-slide active" data-caption="&ldquo;Who is Kutuzov?&rdquo; — answered safely using only what you've read so far in War and Peace" data-label="Spoiler safety">
-            <img src="screenshots/war-and-peace-spoiler-safety.webp" alt="AI chat — spoiler-safe answer about Kutuzov from War and Peace chapter 2" />
-          </div>
-          <div class="carousel-slide" data-caption="&ldquo;Why are the aristocrats speaking French?&rdquo; — historical context from War and Peace" data-label="Historical context">
-            <div class="carousel-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Historical context</span></div>
-          </div>
-          <div class="carousel-slide" data-caption="&ldquo;What are Sun Tzu's recommendations for an uphill battle?&rdquo;" data-label="Non-fiction">
-            <div class="carousel-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Non-fiction</span></div>
-          </div>
-        </div>
-        <div class="carousel-info">
-          <span class="carousel-caption"></span>
-          <span class="carousel-counter"></span>
-        </div>
-        <div class="carousel-dots"></div>
-        <div class="carousel-thumbs"></div>
-      </div>
-
-      <!-- Series -->
-      <div class="gallery-group fade-in" data-carousel>
-        <h3 class="gallery-group-label">Series</h3>
-        <p class="section-subtitle">Group books into series, a book can be part of any number of series, and ask questions across series while you're reading, to gain insights into character development across a multi-part series, or to empower your non-fiction reading.</p>
-        <div class="carousel-hero">
-          <div class="carousel-slide active" data-caption="Group books into series and collections — read them in order, ask questions across all of them" data-label="Series page">
-            <img src="screenshots/series-page.webp" alt="Series page — books grouped into a collection" />
           </div>
         </div>
         <div class="carousel-info">
@@ -1367,6 +1357,22 @@
   </main>
 
   <!-- ============================================================
+       About Modal
+       ============================================================ -->
+  <div class="signup-modal" id="about-modal" role="dialog" aria-modal="true" aria-label="About Merrilin">
+    <div class="signup-modal-card">
+      <button class="signup-modal-close" aria-label="Close">&times;</button>
+      <div class="about-logo patchwork-logo">Merrilin</div>
+      <div class="dict-entry">
+        <div class="dict-phonetic">/&#x2C8;m&#x25B;r.&#x26A;.l&#x26A;n/</div>
+        <div class="dict-pos">noun</div>
+        <p class="dict-def">A journeyman who has travelled this path, won't steer you one way or the other, but if you choose to stop and ask about an aspen, he will tell you about it, granted you don't ask about the treasure lurking in its branches, for that is only for your eyes to behold.</p>
+      </div>
+      <p class="about-built-by">Built by <a href="https://stonecharioteer.com" target="_blank" rel="noopener noreferrer">@stonecharioteer</a> <a href="mailto:mail@stonecharioteer.com" title="mail@stonecharioteer.com">&#x2709;&#xFE0F;</a> &amp; <a href="https://loststoic.com" target="_blank" rel="noopener noreferrer">@loststoic</a></p>
+    </div>
+  </div>
+
+  <!-- ============================================================
        Signup Modal (Picoletter)
        ============================================================ -->
   <div class="signup-modal" id="signup-modal" role="dialog" aria-modal="true" aria-label="Newsletter signup">
@@ -1409,6 +1415,7 @@
   <footer class="footer">
     <div class="footer-logo patchwork-logo">Merrilin</div>
     <p class="footer-text">&copy; 2026 Merrilin. You want stories? I have stories and I will give them to you.</p>
+    <p class="footer-text">Built by <a href="https://stonecharioteer.com" target="_blank" rel="noopener noreferrer">@stonecharioteer</a> <a href="mailto:mail@stonecharioteer.com" title="mail@stonecharioteer.com">&#x2709;&#xFE0F;</a> &amp; <a href="https://loststoic.com" target="_blank" rel="noopener noreferrer">@loststoic</a></p>
     <ul class="footer-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#gallery">Gallery</a></li>
@@ -1494,6 +1501,33 @@
       // Any element with .open-signup-btn also opens the modal
       document.querySelectorAll('.open-signup-btn').forEach(function (btn) {
         btn.addEventListener('click', open);
+      });
+    })();
+
+    // About modal
+    (function () {
+      var modal = document.getElementById('about-modal');
+      var openBtn = document.getElementById('open-about');
+      var closeBtn = modal.querySelector('.signup-modal-close');
+
+      function open(e) {
+        e.preventDefault();
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function close() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      openBtn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) close();
       });
     })();
 

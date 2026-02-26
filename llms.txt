@@ -1,0 +1,26 @@
+# Merrilin
+
+> Read Naturally, Ask Freely
+
+Merrilin is an AI-powered reading companion. It lets you read EPUB books in the browser and ask an AI assistant questions about what you're reading — with built-in spoiler safety for fiction.
+
+## Features
+
+- Spoiler-safe AI chat that adapts to your reading progress in fiction
+- Full-context AI answers for non-fiction
+- Cross-device reading position sync
+- Multiple themes (dark, light, sepia) and customizable typography
+- Library with shelf, grid, list, and thumbnail views
+- Reading analytics and progress tracking
+- Highlight and annotate passages
+- Share quotes as images
+- Series tracking and organization
+
+## Links
+
+- Website: https://merrilin.ai
+- GitHub: https://github.com/merrilin-ai
+
+## Contact
+
+- mail@stonecharioteer.com
