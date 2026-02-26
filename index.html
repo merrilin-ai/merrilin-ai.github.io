@@ -556,12 +556,43 @@
 
     /* Main preview area */
     .carousel-hero {
+      position: relative;
       border-radius: 0.75rem;
       border: 1px solid var(--color-border);
       overflow: hidden;
       background: var(--color-bg);
       transition: background 0.3s ease, border-color 0.3s ease;
       margin-bottom: 0.75rem;
+    }
+
+    /* Prev / Next arrow buttons */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.45);
+      color: #fff;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease, background 0.2s ease;
+    }
+    .carousel-prev { left: 0.5rem; }
+    .carousel-next { right: 0.5rem; }
+    .carousel-hero:hover .carousel-nav { opacity: 1; }
+    .carousel-nav:hover { background: rgba(0, 0, 0, 0.7); }
+    .carousel-hero[data-single] .carousel-nav { display: none; }
+    @media (hover: none) {
+      .carousel-nav { opacity: 0.8; }
     }
 
     .carousel-slide {
@@ -1254,6 +1285,8 @@
         <h3 class="gallery-group-label">Library</h3>
         <p class="section-subtitle">View your collection in the form of books rendered on a shelf, thumbnails or a simple list.</p>
         <div class="carousel-hero">
+          <button class="carousel-nav carousel-prev" aria-label="Previous slide">&#8249;</button>
+          <button class="carousel-nav carousel-next" aria-label="Next slide">&#8250;</button>
           <div class="carousel-slide active" data-caption="Spines on wood-grain shelves" data-label="Shelf mode">
             <img src="screenshots/desktop-shelf-view-library-theme-2.webp" alt="Library — Shelf mode" />
           </div>
@@ -1280,6 +1313,8 @@
         <h3 class="gallery-group-label">Reader</h3>
         <p class="section-subtitle">Enjoy native experience across a series of platforms, android, ios, web and even epaper displays.</p>
         <div class="carousel-hero">
+          <button class="carousel-nav carousel-prev" aria-label="Previous slide">&#8249;</button>
+          <button class="carousel-nav carousel-next" aria-label="Next slide">&#8250;</button>
           <div class="carousel-slide active" data-caption="Full-screen reading on mobile" data-label="Mobile">
             <img src="screenshots/light-theme-mobile.webp" alt="Reader — mobile, light theme" />
           </div>
@@ -1288,6 +1323,9 @@
           </div>
           <div class="carousel-slide" data-caption="Group books into series, as many series as you'd like, and ask questions, either about other individual books or the entire series as a whole." data-label="Series Q&amp;A">
             <img src="screenshots/the-vicomte-de-bragelonne-series-question.webp" alt="Reader — cross-book series question about The Vicomte de Bragelonne" />
+          </div>
+          <div class="carousel-slide" data-caption="Ask questions that span multiple books — here Aurelius, Machiavelli, and Sun Tzu find common ground" data-label="Multi-book Q&amp;A">
+            <img src="screenshots/meditations-sun-tzu-machiavelli-tablet.webp" alt="Reader — multi-book AI chat comparing Meditations, The Prince, and The Art of War on a tablet" />
           </div>
           <div class="carousel-slide" data-caption="Optimized for e-paper devices like the Boox Palma" data-label="Boox Palma">
             <img src="screenshots/boox-palma-merrilin.webp" alt="Reader — Boox Palma e-paper device" />
@@ -1321,6 +1359,8 @@
         <h3 class="gallery-group-label">Reading Analytics</h3>
         <p class="section-subtitle">Your statistics stay out of your way, but here's a peek under the hood. Merrilin uses time-tested statistical process control methods to tell you, with confidence grounded in your past reading, that you can finish War and Peace in 30 days at 30 minutes a day.</p>
         <div class="carousel-hero">
+          <button class="carousel-nav carousel-prev" aria-label="Previous slide">&#8249;</button>
+          <button class="carousel-nav carousel-next" aria-label="Next slide">&#8250;</button>
           <div class="carousel-slide active" data-caption="Reading velocity and session trends at a glance" data-label="Overview">
             <img src="screenshots/analytics-1.webp" alt="Reading analytics — overview dashboard" />
           </div>
@@ -1537,15 +1577,21 @@
     // Hero carousels with thumbnail filmstrip
     (function () {
       document.querySelectorAll('[data-carousel]').forEach(function (group) {
+        var hero = group.querySelector('.carousel-hero');
         var slides = group.querySelectorAll('.carousel-slide');
         var captionEl = group.querySelector('.carousel-caption');
         var counterEl = group.querySelector('.carousel-counter');
         var dotsContainer = group.querySelector('.carousel-dots');
         var thumbsContainer = group.querySelector('.carousel-thumbs');
         var total = slides.length;
+        var current = 0;
         var initialized = false;
 
+        // Mark single-slide carousels so CSS can hide arrows
+        if (total <= 1) hero.setAttribute('data-single', '');
+
         function goTo(index) {
+          current = index;
           slides.forEach(function (s, i) {
             s.classList.toggle('active', i === index);
           });
@@ -1569,6 +1615,37 @@
             }
           }
         }
+
+        function goPrev() { goTo((current - 1 + total) % total); }
+        function goNext() { goTo((current + 1) % total); }
+
+        // Arrow buttons
+        var prevBtn = hero.querySelector('.carousel-prev');
+        var nextBtn = hero.querySelector('.carousel-next');
+        if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); goPrev(); });
+        if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); goNext(); });
+
+        // Touch swipe
+        var touchStartX = 0;
+        var touchStartY = 0;
+        hero.addEventListener('touchstart', function (e) {
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
+        }, { passive: true });
+        hero.addEventListener('touchend', function (e) {
+          var dx = e.changedTouches[0].clientX - touchStartX;
+          var dy = e.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(dx) > 40 && Math.abs(dy) < 75) {
+            if (dx < 0) goNext(); else goPrev();
+          }
+        }, { passive: true });
+
+        // Keyboard arrows when hero or its buttons are focused
+        hero.setAttribute('tabindex', '0');
+        hero.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); }
+          else if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
+        });
 
         // Build dots
         slides.forEach(function (_, i) {
